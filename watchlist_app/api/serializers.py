@@ -19,6 +19,7 @@ class reviewlistserializer(serializers.ModelSerializer):
     class Meta:
         model=review
         fields='__all__'
+        depth=2
 
 class watchlistserializer(serializers.ModelSerializer):
     reviews=reviewlistserializer(read_only=True,many=True)

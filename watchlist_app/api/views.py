@@ -131,15 +131,18 @@ class streamplateformDetail(APIView):
             return Response({'movie not found'},status=status.HttpStatus.NOT_FOUND)
         streamplateforms.delete()
         return Response(serializers.data)
-class reviewlistav(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
-      queryset = review.objects.all()
+class reviewlistav(generics.ListCreateAPIView):
+     # queryset = review.objects.all()
       serializer_class = reviewlistserializer
+      def get_queryset(self):
+        print(self.kwargs)
+        pkey=self.kwargs['pkey']
+        return review.objects.filter(movie=pkey)
 
-      def get(self, request, *args, **kwargs):
-         return self.list(request, *args, **kwargs)
+      ##  return self.list(request, *args, **kwargs)
 
-      def post(self, request, *args, **kwargs):
-         return self.create(request, *args, **kwargs)
+     # #def post(self, request, *args, **kwargs):
+     #    return self.create(request, *args, **kwargs)
 class reviewdetails(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
       queryset = review.objects.all()
       serializer_class = reviewlistserializer
